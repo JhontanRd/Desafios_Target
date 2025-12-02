@@ -26,6 +26,13 @@ namespace Desafio01.Entities
 
         public decimal CommissionRate(decimal amount)
         {
+            /*
+             * Regra:
+                Vendas abaixo de R$100,00 não gera comissão
+                Vendas abaixo de R$500,00 gera 1% de comissão
+                A partir de R$500,00 gera 5% de comissão
+             */
+
             if (amount < 500.0m)
             {
                 return amount * 0.01m;
