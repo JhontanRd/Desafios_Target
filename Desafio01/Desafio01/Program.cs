@@ -8,7 +8,7 @@ namespace Desafio01
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Desafio 1 Target\n");
+            Console.WriteLine("= Desafio 1 Target =\n");
 
             string jsonFile = @"{
             ""vendas"": 
@@ -69,7 +69,6 @@ namespace Desafio01
                     ToList();
 
                 List<Seller> sellersWithCommission = new List<Seller>();
-
 
                 for (int i = 0; i < sellersName.Length; i++)
                 {
