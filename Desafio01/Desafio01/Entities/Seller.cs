@@ -1,4 +1,5 @@
-﻿using Desafio01.Services;
+﻿using Desafio01.Entities.Exceptions;
+using Desafio01.Services;
 using System.Globalization;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,8 @@ namespace Desafio01.Entities
 
         public Seller(string name, decimal value)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                throw new DomainException("O nome fornecido não atende aos critérios. Informe um nome válido.");
             Name = name;
             Value = value;
         }

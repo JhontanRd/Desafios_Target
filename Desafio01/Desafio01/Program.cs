@@ -1,4 +1,5 @@
 ﻿using Desafio01.Entities;
+using Desafio01.Entities.Exceptions;
 using System.Text.Json;
 
 namespace Desafio01
@@ -53,38 +54,52 @@ namespace Desafio01
                 { ""vendedor"": ""Ana Lima"", ""valor"": 315.40 }
             ]}";
 
-            Record record = JsonSerializer.Deserialize<Record>(jsonFile);
-
-            string[] sellersName = record.Sellers.
-                Select(s => s.Name).
-                Distinct().
-                ToArray();
-
-            List<Seller> sallesOverOneHundred = record.Sellers.
-                Where(s => s.Value > 100.0m).
-                Select(s => new Seller(s.Name, s.Value)).
-                ToList();
-
-            List<Seller> sellersWithCommission = new List<Seller>();
-
-
-            for (int i = 0; i < sellersName.Length; i++)
+            try
             {
-                string sellerName = sellersName[i];
+                Record record = JsonSerializer.Deserialize<Record>(jsonFile);
 
-                decimal commission = record.Sellers.
-                    Where(s => s.Name == sellerName).
-                    Select(s => s.CommissionRate(s.Value)).
-                    Sum();
-                sellersWithCommission.Add(new Seller(sellerName, commission));
+                string[] sellersName = record.Sellers.
+                    Select(s => s.Name).
+                    Distinct().
+                    ToArray();
+
+                List<Seller> sallesOverOneHundred = record.Sellers.
+                    Where(s => s.Value > 100.0m).
+                    Select(s => new Seller(s.Name, s.Value)).
+                    ToList();
+
+                List<Seller> sellersWithCommission = new List<Seller>();
+
+
+                for (int i = 0; i < sellersName.Length; i++)
+                {
+                    decimal commission = record.Sellers.
+                        Where(s => s.Name == sellersName[i]).
+                        Select(s => s.CommissionRate(s.Value)).
+                        Sum();
+                    sellersWithCommission.Add(new Seller(sellersName[i], commission));
+                }
+
+                Console.WriteLine("> Comição dos vendedores\n");
+
+                foreach (Seller s in sellersWithCommission)
+                {
+                    Console.WriteLine(s);
+                }
+            }
+            catch (JsonException)
+            {
+                Console.WriteLine("[ERRO]: Houve um erro durante a leitura do Json fornecido!");
+            }
+            catch (DomainException ex)
+            {
+                Console.WriteLine($"[ERRO]: {ex.Message}");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("[ERRO]: Ocorreu um erro inesperado, refaça a operação.");
             }
 
-            Console.WriteLine("> Comição dos vendedores\n");
-
-            foreach (Seller s in sellersWithCommission)
-            {
-                Console.WriteLine(s);
-            }
         }
     }
 }
