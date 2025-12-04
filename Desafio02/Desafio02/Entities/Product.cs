@@ -18,9 +18,9 @@ namespace Desafio02.Entities
         [JsonPropertyName("estoque")]
         public int StockBalance { get; set; }
 
-        public Product(int id, string description, int stockBalance)
+        public Product(int code, string description, int stockBalance)
         {
-            Code = id;
+            Code = code;
             Description = description;
             StockBalance = stockBalance;
         }
@@ -28,8 +28,8 @@ namespace Desafio02.Entities
         public override string ToString()
         {
             return $"> Codigo do produto: {Code}\n" +
-                   $"> Descrição: {Description}" +
-                   $"> Saldo em estoque: {StockBalance}";
+                   $"> Descrição: {Description}\n" +
+                   $"> Saldo em estoque: {StockBalance}\n";
         }
     }
 }
